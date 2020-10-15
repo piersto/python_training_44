@@ -6,16 +6,6 @@ class GroupHelper:
     def __init__(self, app):
         self.app = app
 
-    def get_group_list(self):
-        wd = self.app.wd
-        self.open_groups_page()
-        groups = []
-        for element in wd.find_elements_by_css_selector('span.group'):
-            text = element.text
-            id = element.find_element_by_name("selected[]").get_attribute('value')
-            groups.append(Group(name=text, id=id))
-        return groups
-
     def return_to_groups_page(self):
         wd = self.app.wd
         wd.find_element_by_link_text("group page").click()
@@ -77,7 +67,15 @@ class GroupHelper:
         self.open_groups_page()
         return len(wd.find_elements_by_name("selected[]"))
 
-
+    def get_group_list(self):
+        wd = self.app.wd
+        self.open_groups_page()
+        groups = []
+        for element in wd.find_elements_by_css_selector('span.group'):
+            text = element.text
+            id = element.find_element_by_name("selected[]").get_attribute('value')
+            groups.append(Group(name=text, id=id))
+        return groups
 
 
 
