@@ -87,6 +87,6 @@ class ContactHelper:
             lastname_text = element.find_element_by_css_selector('td:nth-child(2)').text
             firstname_text = element.find_element_by_css_selector('td:nth-child(3)').text
             id = element.find_element_by_name("selected[]").get_attribute('value')
-            list_of_contacts.append(Contact(lastname=lastname_text, firstname=firstname_text, id=id))
+            list_of_contacts.append(Contact(id=id, lastname=lastname_text, firstname=firstname_text))
         return list_of_contacts
 

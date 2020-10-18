@@ -3,9 +3,9 @@ from model.group import Group
 
 def test_modify_first_group_name(app):
     if app.group.count() == 0:
-        app.group.create_group(Group(name='Test'))
+        app.group.create_group(Group(name='Montreal group', footer='aoeu'))
     old_groups = app.group.get_group_list()
-    group = Group(name='New Name')
+    group = Group(name='Mafia group')
     group.id = old_groups[0].id
     app.group.modify_first_group(group)
     new_groups = app.group.get_group_list()

@@ -6,8 +6,8 @@ def test_add_contact(app):
     app.contact.open_add_new_contact_page()
 
     list_of_contacts_old = app.contact.list_of_contacts()
-    contact = Contact(firstname='First name',
-                                             middlename='Middlename', lastname='Lastname',
+    contact = Contact(firstname='Ivan',
+                                             middlename='Petrovich', lastname='Kovaliov',
                                              birthday='31', birth_month='December')
     app.contact.fill_in_contact_form(contact)
     list_of_contacts_new = app.contact.list_of_contacts()
