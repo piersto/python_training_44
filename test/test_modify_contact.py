@@ -33,5 +33,11 @@ def test_modify_contact_middlename(app):
 def test_modify_contact_birth_month(app):
     if app.contact.count() == 0:
         app.contact.fill_in_contact_form(Contact('Contact to be modified'))
-    app.contact.modify_first_contact(Contact(birth_month='April'))
-
+    list_of_contacts_old = app.contact.list_of_contacts()
+    contact = Contact(birth_month='April')
+    contact.id = list_of_contacts_old[0].id
+    app.contact.modify_first_contact(contact)
+    list_of_contacts_new = app.contact.list_of_contacts()
+    assert len(list_of_contacts_old) == len(list_of_contacts_new)
+    list_of_contacts_old[0] = contact
+    assert  sorted(list_of_contacts_old, key=Contact.id_or_max) == sorted(list_of_contacts_new, key=Contact.id_or_max)
