@@ -3,13 +3,13 @@ from model.contact import Contact
 
 def test_modify_contact_lastname(app):
     if app.contact.count() == 0:
-        app.contact.fill_in_contact_form(Contact(firstname='Ivan',
-                                                    middlename='Petrovich',
-                                                        lastname='Kovaliov'))
+        app.contact.fill_in_contact_form(Contact(firstname='Pierre',
+                                                    middlename='Nikola',
+                                                        lastname='Gotier'))
     list_of_contacts_old = app.contact.list_of_contacts()
     contact = Contact(lastname='Kovalevsky')
     contact.id = list_of_contacts_old[0].id
-    contact.firstname = list_of_contacts_old[0].firstname
+    # contact.firstname = list_of_contacts_old[0].firstname
     app.contact.modify_first_contact(contact)
     list_of_contacts_new = app.contact.list_of_contacts()
     assert len(list_of_contacts_old) == len(list_of_contacts_new)
