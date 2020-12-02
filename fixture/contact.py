@@ -19,6 +19,7 @@ class ContactHelper:
         self.specify_drop_downs(contact)
         self.submit_contact_form()
         self.app.return_on_home_page()
+        self.contact_cache = None
 
     def specify_drop_downs(self, contact):
         wd = self.app.wd
@@ -52,6 +53,7 @@ class ContactHelper:
         self.select_first_contact()
         wd.find_element_by_xpath("//input[@value='Delete']").click()
         wd.switch_to.alert.accept()
+        self.contact_cache = None
 
     def select_first_contact(self):
         wd = self.app.wd
@@ -69,6 +71,7 @@ class ContactHelper:
         wd.find_element_by_name("update").click()
         # return to home page
         self.app.return_on_home_page()
+        self.contact_cache = None
 
     def count(self):
         wd = self.app.wd
@@ -79,14 +82,17 @@ class ContactHelper:
         wd = self.app.wd
         wd.get("http://localhost/addressbook/")
 
+    contact_cache = None
+
     def list_of_contacts(self):
         wd = self.app.wd
-        self.open_home_page()
-        list_of_contacts = []
-        for element in wd.find_elements_by_css_selector('tr[name="entry"]'):
-            lastname_text = element.find_element_by_css_selector('td:nth-child(2)').text
-            firstname_text = element.find_element_by_css_selector('td:nth-child(3)').text
-            id = element.find_element_by_name("selected[]").get_attribute('value')
-            list_of_contacts.append(Contact(id=id, lastname=lastname_text, firstname=firstname_text))
-        return list_of_contacts
+        if self.contact_cache is None:
+            self.open_home_page()
+            self.contact_cache = []
+            for element in wd.find_elements_by_css_selector('tr[name="entry"]'):
+                lastname_text = element.find_element_by_css_selector('td:nth-child(2)').text
+                firstname_text = element.find_element_by_css_selector('td:nth-child(3)').text
+                id = element.find_element_by_name("selected[]").get_attribute('value')
+                self.contact_cache.append(Contact(id=id, lastname=lastname_text, firstname=firstname_text))
+        return list(self.contact_cache)
 
