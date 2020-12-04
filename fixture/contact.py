@@ -13,16 +13,17 @@ class ContactHelper:
             "(.//*[normalize-space(text()) and normalize-space(.)='Notes:'])[1]/following::input[1]").click()
 
     def fill_in_contact_form(self, contact):
-        wd = self.app.wd
         self.open_add_new_contact_page()
         self.fill_contact_form(contact)
         self.specify_drop_downs(contact)
         self.submit_contact_form()
         self.app.return_on_home_page()
+
+    def add_contact(self, contact):
+        self.fill_in_contact_form(contact)
         self.contact_cache = None
 
     def specify_drop_downs(self, contact):
-        wd = self.app.wd
         self.select_in_drop_down('bday', contact.birthday)
         self.select_in_drop_down('bmonth', contact.birth_month)
 
@@ -32,7 +33,6 @@ class ContactHelper:
             Select(wd.find_element_by_name(field_name)).select_by_visible_text(text)
 
     def fill_contact_form(self, contact):
-        wd = self.app.wd
         self.change_field_value('firstname', contact.firstname)
         self.change_field_value('middlename', contact.middlename)
         self.change_field_value('lastname', contact.lastname)
